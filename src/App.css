@@ -1,4 +1,6 @@
 @import url("./index.css");
 
 .App {
+  background-color: black;
+  height: 100vh;
 }
