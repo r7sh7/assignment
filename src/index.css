@@ -1,0 +1,14 @@
+:root,
+* {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  overflow-y: hidden;
+
+  --accent-color: #e54065;
+  --background-color: #f4f5f9;
+  --border-color: #cfd2dc;
+  --text-color: #636363;
+  --filter-button-color: #e1e4ea;
+  --read-background-color: #f2f2f2;
+}
