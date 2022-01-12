@@ -3,10 +3,13 @@ import React from "react";
 import Avatar from "../Avatar/Avatar";
 import "./Email.css";
 
-const Email = ({ email }) => {
+const Email = ({ email, fav, read, active }) => {
   const { id, from, date, subject, short_description } = email;
+
+  const selected = active === id ? "email__selected " : "";
+  const emailRead = read.includes(id) ? "email__read " : "";
   return (
-    <li id={id}>
+    <li id={id} className={selected + emailRead}>
       <Avatar id={id} />
       <section id={id} className="email__list">
         <header id={id}>
@@ -26,7 +29,7 @@ const Email = ({ email }) => {
         <footer id={id} className="email__footer">
           <p id={id}>
             {moment(date).calendar()} {moment(date).format("LT")}{" "}
-            <span id={id}>Favorite</span>
+            {fav.includes(id) && <span id={id}>Favorite</span>}
           </p>
         </footer>
       </section>
