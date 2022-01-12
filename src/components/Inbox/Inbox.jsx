@@ -2,8 +2,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { getEmailById, getEmailList } from "../../store/emailActions";
 import Avatar from "../Avatar/Avatar";
 import Email from "../Email/Email";
@@ -26,6 +25,14 @@ const Inbox = ({ split }) => {
     setFilter(name);
   };
 
+  const addEmailToFavorites = () => {
+    setFavorites([...favorites, id]);
+  };
+
+  const removeFromFavorites = () => {
+    setFavorites(favorites.filter((e) => e !== id));
+  };
+
   const displayEmailBody = function (selectedEmail) {
     return (
       <section className="email__body">
@@ -39,7 +46,15 @@ const Inbox = ({ split }) => {
                 {moment(selectedEmail.date).format("LT")}
               </p>
             </div>
-            <button className="favorite">Mark as favorite</button>
+            {favorites.includes(selectedEmail.id) ? (
+              <button className="unfavorite" onClick={removeFromFavorites}>
+                Unmark as favorite
+              </button>
+            ) : (
+              <button className="favorite" onClick={addEmailToFavorites}>
+                Mark as favorite
+              </button>
+            )}
           </div>
         </header>
         <div
@@ -54,6 +69,7 @@ const Inbox = ({ split }) => {
     const emailContent = emails.find((email) => email.id === e.target.id);
     setSelectedEmail({ ...emailContent });
     history.push(`/${e.target.id}`);
+    setReadEmails([...readEmails, e.target.id]);
   };
 
   useEffect(() => {
@@ -71,11 +87,17 @@ const Inbox = ({ split }) => {
         <nav>
           <ul onClick={openEmail}>
             {emails?.map((email) => (
-              <Email email={email} key={email?.id} />
+              <Email
+                email={email}
+                key={email?.id}
+                fav={favorites}
+                read={readEmails}
+                active={selectedEmail?.id}
+              />
             ))}
           </ul>
         </nav>
-        {selectedEmail && displayEmailBody(selectedEmail)}
+        {split && displayEmailBody(selectedEmail)}
       </div>
     </div>
   );
