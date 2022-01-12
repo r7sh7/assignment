@@ -10,6 +10,7 @@
 
 .container__body {
   display: flex;
+  /* display: block; */
   justify-content: space-between;
 }
 
