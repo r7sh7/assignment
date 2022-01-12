@@ -9,23 +9,31 @@ li {
   background-color: var(--read-background-color);
 }
 
-section p {
+.email__list p {
   margin-bottom: 0.4rem;
   font-size: 0.9rem;
   color: var(--text-color);
   font-weight: 400;
+  max-width: 18rem;
 }
 
-section header {
+.email__list header {
   margin-bottom: 0.6rem;
 }
 
-footer p {
+.email__body__footer p {
   font-size: 0.8rem;
 }
-p span {
+
+.email__list p span {
   margin-left: 2rem;
   color: var(--accent-color);
   font-weight: 500;
   font-size: 0.75rem;
+}
+
+.description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

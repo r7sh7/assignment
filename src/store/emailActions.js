@@ -11,10 +11,10 @@ import {
 export const getEmailList = () => async (dispatch) => {
   try {
     dispatch({ type: EMAIL_LIST_REQUEST });
-    const { list } = await request.get("/");
+    const { data } = await request.get("/");
     dispatch({
       type: EMAIL_LIST_SUCCESS,
-      payload: list,
+      payload: data.list,
     });
   } catch (err) {
     dispatch({

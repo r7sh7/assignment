@@ -1,24 +1,32 @@
+import moment from "moment";
 import React from "react";
 import Avatar from "../Avatar/Avatar";
 import "./Email.css";
 
-const Email = () => {
+const Email = ({ email }) => {
+  const { id, from, date, subject, short_description } = email;
   return (
-    <li>
-      <Avatar />
-      <section>
-        <header>
-          <p>
-            From: <strong>Foo Bar &lt;foo.bar@gmail.com&gt;</strong>
+    <li id={id}>
+      <Avatar id={id} />
+      <section id={id} className="email__list">
+        <header id={id}>
+          <p id={id}>
+            From:{" "}
+            <strong id={id}>
+              {from?.name} &lt;{from?.email}&gt;
+            </strong>
           </p>
-          <p>
-            Subject: <strong>Lorem Ipsum</strong>
+          <p id={id}>
+            Subject: <strong id={id}>{subject}</strong>
           </p>
         </header>
-        <p>khfljflkjljflwe, wkefhofw, whfoojwef</p>
-        <footer>
-          <p>
-            26/02/2020 10:30am <span>Favorite</span>
+        <p id={id} className="description">
+          {short_description}
+        </p>
+        <footer id={id} className="email__footer">
+          <p id={id}>
+            {moment(date).calendar()} {moment(date).format("LT")}{" "}
+            <span id={id}>Favorite</span>
           </p>
         </footer>
       </section>
