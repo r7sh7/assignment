@@ -12,25 +12,38 @@ import "./Inbox.css";
 const Inbox = ({ split }) => {
   const [filter, setFilter] = useState("Unread");
   const [selectedEmail, setSelectedEmail] = useState();
-  const [favorites, setFavorites] = useState([]);
-  const [readEmails, setReadEmails] = useState([]);
+  const [favorite, setFavorite] = useState([]);
+  const [read, setRead] = useState([]);
+  const [emailList, setEmailList] = useState();
 
   const dispatch = useDispatch();
-  const { emails } = useSelector((state) => state.emailList);
+  let { emails } = useSelector((state) => state.emailList);
   const { email } = useSelector((state) => state.selectedEmail);
   const history = useHistory();
   const { id } = useParams();
 
   const changeFilter = function (name) {
     setFilter(name);
+    const filteredEmails = emails.reduce((acc, element) => {
+      if (name === "Unread" && !read.includes(element.id)) {
+        return [element, ...acc];
+      } else if (name === "Read" && read.includes(element.id)) {
+        return [element, ...acc];
+      } else if (favorite.includes(element.id)) {
+        return [element, ...acc];
+      }
+      return [...acc, element];
+    }, []);
+
+    setEmailList(filteredEmails);
   };
 
   const addEmailToFavorites = () => {
-    setFavorites([...favorites, id]);
+    setFavorite([...favorite, id]);
   };
 
   const removeFromFavorites = () => {
-    setFavorites(favorites.filter((e) => e !== id));
+    setFavorite(favorite.filter((e) => e !== id));
   };
 
   const displayEmailBody = function (selectedEmail) {
@@ -46,7 +59,7 @@ const Inbox = ({ split }) => {
                 {moment(selectedEmail.date).format("LT")}
               </p>
             </div>
-            {favorites.includes(selectedEmail.id) ? (
+            {favorite.includes(selectedEmail.id) ? (
               <button className="unfavorite" onClick={removeFromFavorites}>
                 Unmark as favorite
               </button>
@@ -69,7 +82,7 @@ const Inbox = ({ split }) => {
     const emailContent = emails.find((email) => email.id === e.target.id);
     setSelectedEmail({ ...emailContent });
     history.push(`/${e.target.id}`);
-    setReadEmails([...readEmails, e.target.id]);
+    setRead([...read, e.target.id]);
   };
 
   useEffect(() => {
@@ -86,15 +99,25 @@ const Inbox = ({ split }) => {
       <div className={split ? "container__body split" : "container__body"}>
         <nav>
           <ul onClick={openEmail}>
-            {emails?.map((email) => (
-              <Email
-                email={email}
-                key={email?.id}
-                fav={favorites}
-                read={readEmails}
-                active={selectedEmail?.id}
-              />
-            ))}
+            {emailList
+              ? emailList.map((email) => (
+                  <Email
+                    email={email}
+                    key={email?.id}
+                    fav={favorite}
+                    read={read}
+                    active={selectedEmail?.id}
+                  />
+                ))
+              : emails.map((email) => (
+                  <Email
+                    email={email}
+                    key={email?.id}
+                    fav={favorite}
+                    read={read}
+                    active={selectedEmail?.id}
+                  />
+                ))}
           </ul>
         </nav>
         {split && displayEmailBody(selectedEmail)}
