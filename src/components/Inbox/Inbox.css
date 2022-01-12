@@ -5,17 +5,22 @@
   padding: 1rem 3rem;
   background-color: var(--background-color);
   height: 96%;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .container__body {
+  display: block;
+}
+
+.split {
   display: flex;
-  /* display: block; */
   justify-content: space-between;
 }
 
 nav {
   min-width: 25rem;
+  overflow-y: auto;
+  max-height: 90vh;
   /* width: 100%; */
 }
 
@@ -65,7 +70,12 @@ h1 {
   border-radius: 1rem;
 }
 
-.email__body__content {
+.email__body__content div {
+  max-height: 32rem;
+  overflow-y: auto;
+}
+.email__body__content div p {
   color: var(--text-color);
   margin: 2.1rem 4.2rem;
+  font-size: 0.9rem;
 }
