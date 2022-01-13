@@ -8,13 +8,19 @@ import {
   EMAIL_LIST_SUCCESS,
 } from "./constants";
 
-export const getEmailList = () => async (dispatch) => {
+export const getEmailList = (read) => async (dispatch) => {
   try {
     dispatch({ type: EMAIL_LIST_REQUEST });
     const { data } = await request.get("/");
+    const list = data.list.reduce((acc, element) => {
+      if (!read.includes(element.id)) {
+        return [element, ...acc];
+      }
+      return [...acc, element];
+    }, []);
     dispatch({
       type: EMAIL_LIST_SUCCESS,
-      payload: data.list,
+      payload: list,
     });
   } catch (err) {
     dispatch({
