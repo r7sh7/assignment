@@ -10,7 +10,7 @@ const Email = ({ email, fav, read, active }) => {
   const emailRead = read.includes(id) ? "email__read " : "";
   return (
     <li id={id} className={selected + emailRead}>
-      <Avatar id={id} />
+      <Avatar id={id} name={from.name} />
       <section id={id} className="email__list">
         <header id={id}>
           <p id={id}>

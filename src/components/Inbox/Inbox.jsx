@@ -72,7 +72,7 @@ const Inbox = ({ split }) => {
     return (
       <section className="email__body">
         <header>
-          <Avatar />
+          <Avatar name={selectedEmail.from.name} />
           <div className="email__body__header">
             <div className="email__body__info">
               <h1>{selectedEmail?.subject}</h1>
