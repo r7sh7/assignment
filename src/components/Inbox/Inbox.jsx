@@ -61,7 +61,9 @@ const Inbox = ({ split }) => {
   const openEmail = (e) => {
     history.push(`/${e.target.id}`);
     const emailContent = emails.find((email) => email.id === e.target.id);
-    sessionStorage.setItem("current_email", JSON.stringify(emailContent));
+    if (e.target.id) {
+      sessionStorage.setItem("current_email", JSON.stringify(emailContent));
+    }
     setSelectedEmail(emailContent);
     if (!read.includes(emailContent.id)) {
       setRead([...read, emailContent.id]);
@@ -111,7 +113,7 @@ const Inbox = ({ split }) => {
 
   useEffect(() => {
     dispatch(getEmailList(read));
-  }, [dispatch]);
+  }, [dispatch, read]);
 
   useEffect(() => {
     dispatch(getEmailById(id));
